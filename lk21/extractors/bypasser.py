@@ -370,8 +370,15 @@ for key, value in inspect.getmembers(Bypass):
                 valid_regex = re.sub(
                     r"\[.+?\][+*]\??|\\[a-zA-Z][+*]\??", "\[id\]", rule.pattern)
                 valid_regex = re.sub(r"\.[*+]\??", "\[any\]", valid_regex)
-                for url in exrex.generate(valid_regex):
-                    Bypass.bypassPattern[key]["support"].add(
-                        removeprefix(urlparse(url).netloc, "www."))
+                try:
+                    for url in exrex.generate(valid_regex):
+                        try:
+                            Bypass.bypassPattern[key]["support"].add(
+                                removeprefix(urlparse(url).netloc, "www.")
+                            )
+                        except (ValueError, Exception):
+                            pass
+                except (ValueError, Exception):
+                    pass
 
 Bypass.allBypassPattern = re.compile(r"|".join(allBypassPattern))
