@@ -26,6 +26,7 @@ try:
     from re import _parser as sre_parse
 except ImportError:
     from re import sre_parse
+from re import U
 
 from itertools import tee
 from random import choice, randint
